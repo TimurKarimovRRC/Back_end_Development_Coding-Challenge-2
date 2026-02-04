@@ -17,6 +17,10 @@ export interface EventPopularityResult extends Event {
   popularityScore: number;
   popularityTier: string;
 }
+
+
+
+
 const events: Event[] = [
   {
     id: 1,
@@ -45,6 +49,28 @@ const attendees: Attendee[] = [
   { id: 1, name: "Jordan Smith", email: "jordan.smith@email.com" },
   { id: 2, name: "Alex Chen", email: "alex.chen@email.com" }
 ];
+
+
+
+
 function roundToOneDecimal(value: number): number {
   return Number(value.toFixed(1));
+}
+
+
+export function calculatePopularityScore(capacity: number, registrationCount: number): number {
+  if (capacity === 0) {
+    return 0;
+  }
+
+  const rawScore = (registrationCount / capacity) * 100;
+  return roundToOneDecimal(rawScore);
+}
+
+export function getPopularityTier(score: number): string {
+  if (score >= 90) return "Hot";
+  if (score >= 70) return "Popular";
+  if (score >= 50) return "Moderate";
+  if (score >= 25) return "Building";
+  return "New";
 }
