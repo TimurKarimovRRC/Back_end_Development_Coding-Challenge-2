@@ -45,3 +45,6 @@ const attendees: Attendee[] = [
   { id: 1, name: "Jordan Smith", email: "jordan.smith@email.com" },
   { id: 2, name: "Alex Chen", email: "alex.chen@email.com" }
 ];
+function roundToOneDecimal(value: number): number {
+  return Number(value.toFixed(1));
+}
