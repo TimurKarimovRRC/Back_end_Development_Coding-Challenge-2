@@ -101,8 +101,7 @@ export function createEvent(name: string, date: string, capacity: number): Event
 }
 export function updateEventById(
   eventId: number,
-  updatedFields: Partial<Omit<Event, "id">>
-): Event | undefined {
+  updatedFields: Partial<Omit<Event, "id">>): Event | undefined {
   const existingEvent = getEventById(eventId);
   if (!existingEvent) {
     return undefined;
@@ -124,4 +123,22 @@ export function deleteEventById(eventId: number): boolean {
 
   events.splice(eventIndex, 1);
   return true;
+}
+
+export function getEventPopularityById(eventId: number): EventPopularityResult | undefined {
+  const existingEvent = getEventById(eventId);
+  if (!existingEvent) {
+    return undefined;
+  }
+
+  const spotsRemaining = existingEvent.capacity - existingEvent.registrationCount;
+  const popularityScore = calculatePopularityScore(existingEvent.capacity, existingEvent.registrationCount);
+  const popularityTier = getPopularityTier(popularityScore);
+
+  return {
+    ...existingEvent,
+    spotsRemaining,
+    popularityScore,
+    popularityTier
+  };
 }
