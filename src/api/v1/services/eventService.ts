@@ -82,3 +82,46 @@ export function getAllEvents(): Event[] {
 export function getEventById(eventId: number): Event | undefined {
   return events.find((eventItem) => eventItem.id === eventId);
 }
+
+
+export function createEvent(name: string, date: string, capacity: number): Event {
+  const maxExistingId = events.reduce((maxId, eventItem) => Math.max(maxId, eventItem.id), 0);
+  const newId = maxExistingId + 1;
+
+  const newEvent: Event = {
+    id: newId,
+    name,
+    date,
+    capacity,
+    registrationCount: 0
+  };
+
+  events.push(newEvent);
+  return newEvent;
+}
+export function updateEventById(
+  eventId: number,
+  updatedFields: Partial<Omit<Event, "id">>
+): Event | undefined {
+  const existingEvent = getEventById(eventId);
+  if (!existingEvent) {
+    return undefined;
+  }
+
+  if (updatedFields.name !== undefined) existingEvent.name = updatedFields.name;
+  if (updatedFields.date !== undefined) existingEvent.date = updatedFields.date;
+  if (updatedFields.capacity !== undefined) existingEvent.capacity = updatedFields.capacity;
+  if (updatedFields.registrationCount !== undefined) existingEvent.registrationCount = updatedFields.registrationCount;
+
+  return existingEvent;
+}
+
+export function deleteEventById(eventId: number): boolean {
+  const eventIndex = events.findIndex((eventItem) => eventItem.id === eventId);
+  if (eventIndex === -1) {
+    return false;
+  }
+
+  events.splice(eventIndex, 1);
+  return true;
+}
