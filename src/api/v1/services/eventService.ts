@@ -74,3 +74,11 @@ export function getPopularityTier(score: number): string {
   if (score >= 25) return "Building";
   return "New";
 }
+
+export function getAllEvents(): Event[] {
+  return events;
+}
+
+export function getEventById(eventId: number): Event | undefined {
+  return events.find((eventItem) => eventItem.id === eventId);
+}
